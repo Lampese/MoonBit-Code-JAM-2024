@@ -1,14 +1,14 @@
 enum Enemy {
   Mummy(Mummy)
   Skeleton(Skeleton)
-  TinyS(Mummy)
+  Bug(Bug)
 }
 
 pub fn get_pos(self : Enemy) -> Position {
   match self {
     Mummy({ pos, .. }) => pos
     Skeleton({ pos, .. }) => pos
-    TinyS({ pos, .. }) => pos
+    Bug({ pos, .. }) => pos
   }
 }
 
@@ -16,7 +16,7 @@ pub fn get_hp(self : Enemy) -> Int {
   match self {
     Mummy({ hp, .. }) => hp
     Skeleton({ hp, .. }) => hp
-    TinyS({ hp, .. }) => hp
+    Bug({ hp, .. }) => hp
   }
 }
 
@@ -24,15 +24,15 @@ pub fn get_id(self : Enemy) -> UInt {
   match self {
     Mummy({ id, .. }) => id
     Skeleton({ id, .. }) => id
-    TinyS({ id, .. }) => id
+    Bug({ id, .. }) => id
   }
 }
 
-pub fn get_hitbox(self : Enemy) -> Shape {
+pub fn get_hitbox(self : Enemy, ~pos : Position = self.get_pos()) -> Shape {
   match self {
-    Mummy({ pos, .. }) => pos.get_hitbox_mummy()
-    Skeleton({ pos, .. }) => pos.get_hitbox_skeleton()
-    TinyS({ pos, .. }) => pos.get_hitbox_mummy()
+    Mummy(_) => pos.get_hitbox_mummy()
+    Skeleton(_) => pos.get_hitbox_skeleton()
+    Bug(_) => pos.get_hitbox_bug()
   }
 }
 
@@ -40,7 +40,7 @@ pub fn damage(self : Enemy, damage : Int) -> Unit {
   match self {
     Mummy(mummy) => mummy.hp -= damage
     Skeleton(skeleton) => skeleton.hp -= damage
-    TinyS(mummy) => mummy.hp -= damage
+    Bug(mummy) => mummy.hp -= damage
   }
 }
 
@@ -54,9 +54,9 @@ fn render_enermy(enemy : Enemy) -> Unit {
       let (x, y) = pos.to_wasm4_pos()
       skeleton_texture.render_texture(x - 5, y - 5)
     }
-    TinyS({ pos, .. }) => {
+    Bug({ pos, .. }) => {
       let (x, y) = pos.to_wasm4_pos()
-      tiny_s_texture.render_texture(x - 5, y - 5)
+      bug_texture.render_texture(x - 5, y - 5)
     }
   }
 }
@@ -70,7 +70,7 @@ fn update_enemy(self : Room) -> Unit {
       match enemy {
         Mummy(mummy) => mummy.ai()
         Skeleton(skeleton) => skeleton.ai()
-        TinyS(mummy) => mummy.ai()
+        Bug(bug) => bug.ai()
       }
     }
   }
@@ -83,12 +83,12 @@ fn set_pos(self : Enemy, pos : Position) -> Unit {
   match self {
     Mummy(mummy) => mummy.pos = pos
     Skeleton(skeleton) => skeleton.pos = pos
-    TinyS(mummy) => mummy.pos = pos
+    Bug(mummy) => mummy.pos = pos
   }
 }
 
 fn apply(self : Enemy, pos : Position) -> Unit {
-  let hitbox = self.get_hitbox()
+  let hitbox = self.get_hitbox(~pos)
   if game.current_room.walls.shape_in_box(hitbox).not() &&
     game.player.pos.get_hitbox_player().is_intersect(hitbox).not() {
     self.set_pos(pos)
@@ -96,7 +96,7 @@ fn apply(self : Enemy, pos : Position) -> Unit {
 }
 
 // -------------- Mummy --------------
-// size: 10*10
+// size: 10*10 (bug size: 11*10)
 struct Mummy {
   id : UInt
   speed : Double
@@ -106,14 +106,8 @@ struct Mummy {
   hitcd : CD
 }
 
-pub fn Mummy::new(
-  id : UInt,
-  hp : Int,
-  speed : Double,
-  hit : Int,
-  pos : Position
-) -> Mummy {
-  { id, pos, hp, speed, hit, hitcd: CD::new(100, 2) }
+pub fn Mummy::new(id : UInt, pos : Position) -> Mummy {
+  { id, pos, hp: 100, speed: 1, hit: 10, hitcd: CD::new(100, 2) }
 }
 
 fn get_hitbox_mummy(self : Position) -> Shape {
@@ -134,7 +128,7 @@ pub fn ai(self : Mummy) -> Unit {
 }
 
 // -------------- Skeleton --------------
-// size: 11*11
+// size: 10*10
 struct Skeleton {
   id : UInt
   mut pos : Position
@@ -173,5 +167,37 @@ pub fn ai(self : Skeleton) -> Unit {
     let way = self.pos.find_way(game.player.pos, 0.25)
     Skeleton(self).apply({ x: way.x, y: self.pos.y })
     Skeleton(self).apply({ x: self.pos.x, y: way.y })
+  }
+}
+
+// -------------- Bug --------------
+// size: 11*10
+struct Bug {
+  id : UInt
+  speed : Double
+  mut pos : Position
+  mut hp : Int
+  hit : Int
+  hitcd : CD
+}
+
+pub fn Bug::new(id : UInt, pos : Position) -> Bug {
+  { id, pos, hp: 20, speed: 3, hit: 5, hitcd: CD::new(100, 2) }
+}
+
+fn get_hitbox_bug(self : Position) -> Shape {
+  Rect(self.x - 5, self.y - 5, self.x + 6, self.y + 5)
+}
+
+pub fn ai(self : Bug) -> Unit {
+  let distance = self.pos.distance(game.player.pos)
+  self.hitcd.decrease()
+  if distance <= 11 && self.hitcd.check() {
+    game.player.damage(self.hit)
+    self.hitcd.refersh()
+  } else if distance > 11 {
+    let way = self.pos.find_way(game.player.pos, self.speed)
+    Bug(self).apply({ x: way.x, y: self.pos.y })
+    Bug(self).apply({ x: self.pos.x, y: way.y })
   }
 }

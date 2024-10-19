@@ -272,7 +272,7 @@ let slingshot_texture : Texture = Texture(
   height=11,
 )
 
-let tiny_s_texture : Texture = Texture(
+let bug_texture : Texture = Texture(
   [
     (7, 1, 10, 1),
     (4, 2, 6, 2),

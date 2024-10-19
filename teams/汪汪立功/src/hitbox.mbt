@@ -32,7 +32,7 @@ pub fn is_intersect(self : Shape, other : Shape) -> Bool {
       let distance_x = x2 - x1
       let distance_y = y2 - y1
       let distance_squared = distance_x * distance_x + distance_y * distance_y
-      let radius_sum = r1 + r2
+      let radius_sum = r1 + r2  
       distance_squared < radius_sum * radius_sum
     }
   }
@@ -40,10 +40,14 @@ pub fn is_intersect(self : Shape, other : Shape) -> Bool {
 
 pub fn init_wall() -> HitBox {
   let hitbox : HitBox = HitBox::new()
-  hitbox.add(Rect(0, 0, 15, 159))
-  hitbox.add(Rect(0, 0, 159, 15))
-  hitbox.add(Rect(0, 143, 159, 159))
-  hitbox.add(Rect(143, 0, 159, 159))
+  hitbox.add(Rect(3, 3, 70, 20))
+  hitbox.add(Rect(3, 3, 20,71))
+  hitbox.add(Rect(3, 85, 20, 154))
+  hitbox.add(Rect(3, 137, 71, 154))
+  hitbox.add(Rect(85,137,154,154))
+  hitbox.add(Rect(137,85,154,154))
+  hitbox.add(Rect(84,3,154,20))
+  hitbox.add(Rect(137,3,154,71))
   hitbox
 }
 
