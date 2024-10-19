@@ -25,8 +25,8 @@ pub fn get_hitbox(self : Arrow) -> Shape {
 }
 
 pub fn render_arrow(arrow : Arrow) -> Unit {
-  set_draw_color(1, Black)
-  set_draw_color(2, Transparent)
+  set_draw_color(1, LightBrown)
+  set_draw_color(2, Brown)
   let (x, y) = arrow.pos.to_wasm4_pos()
   @wasm4.oval(x, y, 5, 5)
 }

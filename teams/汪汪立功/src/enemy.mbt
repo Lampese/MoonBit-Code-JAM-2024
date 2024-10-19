@@ -47,22 +47,16 @@ pub fn damage(self : Enemy, damage : Int) -> Unit {
 fn render_enermy(enemy : Enemy) -> Unit {
   match enemy {
     Mummy({ pos, .. }) => {
-      set_draw_color(1, Black)
-      set_draw_color(2, Transparent)
       let (x, y) = pos.to_wasm4_pos()
-      @wasm4.oval(x - 5, y - 5, 11, 11)
+      mummy_texture.render_texture(x - 5, y - 5)
     }
     Skeleton({ pos, .. }) => {
-      set_draw_color(1, Grey)
-      set_draw_color(2, Transparent)
       let (x, y) = pos.to_wasm4_pos()
-      @wasm4.oval(x - 5, y - 5, 11, 11)
+      skeleton_texture.render_texture(x - 5, y - 5)
     }
     TinyS({ pos, .. }) => {
-      set_draw_color(1, Transparent)
-      set_draw_color(2, Black)
       let (x, y) = pos.to_wasm4_pos()
-      @wasm4.oval(x - 5, y - 5, 11, 11)
+      tiny_s_texture.render_texture(x - 5, y - 5)
     }
   }
 }
@@ -102,7 +96,7 @@ fn apply(self : Enemy, pos : Position) -> Unit {
 }
 
 // -------------- Mummy --------------
-// size: 11*11
+// size: 10*10
 struct Mummy {
   id : UInt
   speed : Double
@@ -123,7 +117,7 @@ pub fn Mummy::new(
 }
 
 fn get_hitbox_mummy(self : Position) -> Shape {
-  Circle(self.x, self.y, 5.4)
+  Rect(self.x - 5, self.y - 5, self.x + 5, self.y + 5)
 }
 
 pub fn ai(self : Mummy) -> Unit {
