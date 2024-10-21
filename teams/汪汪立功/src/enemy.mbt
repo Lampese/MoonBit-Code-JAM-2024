@@ -153,13 +153,31 @@ pub fn ai(self : Skeleton) -> Unit {
     if self.pos.x == player_pos.x {
       game.current_room.arrows.set(
         id,
-        Arrow::new(id, self.pos, 0.5, 1, 10, self.pos.y < player_pos.y, true),
+        Arrow::new(
+          id,
+          self.pos,
+          0.5,
+          1,
+          10,
+          self.pos.y < player_pos.y,
+          true,
+          true,
+        ),
       )
     } else {
       let k = (self.pos.y - player_pos.y) / (self.pos.x - player_pos.x)
       game.current_room.arrows.set(
         id,
-        Arrow::new(id, self.pos, 0.5, k, 10, self.pos.x < player_pos.x, false),
+        Arrow::new(
+          id,
+          self.pos,
+          0.5,
+          k,
+          10,
+          self.pos.x < player_pos.x,
+          false,
+          true,
+        ),
       )
     }
     self.hitcd.refersh()

@@ -7,7 +7,7 @@ pub fn render(room : Room, player : Player) -> Unit {
   for _, arrow in room.arrows {
     render_arrow(arrow)
   }
-  render_hp_ui(player)
+  render_hp_bar(player)
 }
 
 pub fn render_background_normal() -> Unit {

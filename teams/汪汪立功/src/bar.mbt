@@ -1,4 +1,4 @@
-pub fn render_hp_ui(player : Player) -> Unit {
+pub fn render_hp_bar(player : Player) -> Unit {
   set_draw_color(1, LightBrown)
   set_draw_color(2, Transparent)
   let progress : Double = player.hp.to_double() / player.hp_max.to_double()

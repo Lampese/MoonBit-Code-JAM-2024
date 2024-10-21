@@ -13,7 +13,7 @@ pub fn inputer(player : Player) -> Unit {
   if gamepad.button_right {
     player.right()
   }
-  if mouse.left {
-    attack(Sword(Sword::new()), player.pos, game.current_room)
+  if mouse.left && player.weapon.check_cd() {
+    player.weapon.attack(player.pos, game.current_room, mouse.x, mouse.y)
   }
 }

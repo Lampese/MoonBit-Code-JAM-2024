@@ -6,6 +6,7 @@ struct Arrow {
   damage : Int
   direction : Bool
   vert : Bool
+  belong : Bool
 }
 
 pub fn Arrow::new(
@@ -15,9 +16,10 @@ pub fn Arrow::new(
   k : Double,
   damage : Int,
   direction : Bool,
-  vert : Bool
+  vert : Bool,
+  belong : Bool
 ) -> Arrow {
-  { id, pos, speed, k, damage, direction, vert }
+  { id, pos, speed, k, damage, direction, vert, belong }
 }
 
 pub fn get_hitbox(self : Arrow) -> Shape {
@@ -35,12 +37,25 @@ pub fn update_arrow(self : Room) -> Unit {
   let erase_list : Array[UInt] = []
   for id, arrow in self.arrows {
     let hitbox = arrow.get_hitbox()
+    let mut flag = false
     if game.current_room.arrow_walls.shape_in_box(hitbox) {
       erase_list.push(id)
-    } else if game.player.pos.get_hitbox_player().is_intersect(hitbox) {
+      flag = true
+    } else if arrow.belong == true &&
+      game.player.pos.get_hitbox_player().is_intersect(hitbox) {
       game.player.damage(arrow.damage)
       erase_list.push(id)
-    } else {
+      flag = true
+    } else if arrow.belong == false {
+      for _, enemy in self.enemys {
+        if enemy.get_hitbox().is_intersect(hitbox) {
+          enemy.damage(arrow.damage)
+          flag = true
+          break
+        }
+      }
+    }
+    if flag.not() {
       arrow.ai()
     }
   }
