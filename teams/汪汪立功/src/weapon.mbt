@@ -3,6 +3,17 @@ enum Weapon {
   Slingshot(Slingshot)
 }
 
+pub fn switch_weapon(self : Player) -> Unit {
+  if self.weapon_type == true {
+    self.weapon = Slingshot(self.slingshot)
+    self.weapon_type = false
+  } else {
+    self.weapon = Sword(self.sword)
+    self.weapon_type = true
+  }
+  self.switch_cd.refersh()
+}
+
 pub fn attack(
   self : Weapon,
   pos : Position,
@@ -22,8 +33,9 @@ pub fn get_cd(self : Weapon) -> CD {
   }
 }
 
-pub fn update_weapon(self : Weapon) -> Unit {
-  match self {
+pub fn update_weapon(self : Player) -> Unit {
+  self.switch_cd.decrease()
+  match self.weapon {
     Sword(sword) => sword.cd.decrease()
     Slingshot(slingshot) => slingshot.cd.decrease()
   }
@@ -44,7 +56,7 @@ enum SwordDirection {
 } derive(Show)
 
 pub fn Sword::new() -> Sword {
-  { level: 1, damage: 10, range: 3, cd: CD::new(100, 50) }
+  { level: 1, damage: 10, range: 3, cd: CD::new(100, 10) }
 }
 
 pub fn sword_determine_direction(
@@ -101,4 +113,8 @@ pub fn sword_attack(
 struct Slingshot {
   level : Int
   cd : CD
+}
+
+pub fn Slingshot::new() -> Slingshot {
+  { level: 1, cd: CD::new(100, 10) }
 }

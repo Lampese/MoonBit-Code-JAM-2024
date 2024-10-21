@@ -9,7 +9,9 @@ pub fn CD::new(total : Int, decrease : Int) -> CD {
 }
 
 pub fn decrease(self : CD) -> Unit {
-  self.cd -= self.decrease
+  if self.cd > 0 {
+    self.cd -= self.decrease
+  }
 }
 
 pub fn refersh(self : CD) -> Unit {
