@@ -11,8 +11,7 @@ enum Texture {
 
 fn render_texture(self : Texture, x : Int, y : Int) -> Unit {
   guard let Texture(black, brown, light_brown, gery, ..) = self
-  set_draw_color(2, Transparent)
-  set_draw_color(1, Black)
+  set_main_color_with_transparent(Black)
   for rect in black {
     let (x1, y1, x2, y2) = rect
     @wasm4.rect(x + x1 - 1, y + y1 - 1, x2 - x1 + 1, y2 - y1 + 1)

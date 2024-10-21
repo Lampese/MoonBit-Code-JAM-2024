@@ -1,19 +1,20 @@
 pub fn render(room : Room, player : Player) -> Unit {
   render_background_normal()
+  render_weapon_column()
   render_player(player)
+  render_hp_bar(player)
+  render_cd_bar(player)
   for _, enemy in room.enemys {
     render_enermy(enemy)
   }
   for _, arrow in room.arrows {
     render_arrow(arrow)
   }
-  render_hp_bar(player)
 }
 
 pub fn render_background_normal() -> Unit {
   render_background()
-  set_draw_color(1, Black)
-  set_draw_color(2, Transparent)
+  set_main_color_with_transparent(Black)
   @wasm4.rect(22, 22, 116, 116)
 }
 

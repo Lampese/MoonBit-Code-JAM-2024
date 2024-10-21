@@ -8,8 +8,8 @@ pub fn start() -> Unit {
 }
 
 pub fn update() -> Unit {
-  render_background()
   render(game.current_room, game.player)
+  update_weapon(game.player.weapon)
   update_enemy(game.current_room)
   update_arrow(game.current_room)
   inputer(game.player)
