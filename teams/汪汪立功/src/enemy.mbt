@@ -96,7 +96,7 @@ fn apply(self : Enemy, pos : Position) -> Unit {
 }
 
 // -------------- Mummy --------------
-// size: 10*10 (bug size: 11*10)
+// size: 10*10
 struct Mummy {
   id : UInt
   speed : Double

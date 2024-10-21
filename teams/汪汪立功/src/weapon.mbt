@@ -4,12 +4,13 @@ enum Weapon {
 }
 
 struct Sword {
+  level : Int
   damage : Int
   range : Int
 }
 
 pub fn Sword::new() -> Sword {
-  { damage: 10, range: 3 }
+  { level: 1, damage: 10, range: 3 }
 }
 
 pub fn attack(self : Weapon, pos : Position, room : Room) -> Unit {
@@ -20,7 +21,7 @@ pub fn attack(self : Weapon, pos : Position, room : Room) -> Unit {
 
 pub fn attack_one(self : Weapon, pos : Position, other : Enemy) -> Unit {
   match self {
-    Sword({ damage, range }) => {
+    Sword({ damage, range, .. }) => {
       let hitbox = Rect(
         pos.x - 5,
         pos.y - 5 - range.to_double(),

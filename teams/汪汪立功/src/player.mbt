@@ -2,10 +2,12 @@ struct Player {
   mut pos : Position
   mut hp : Int
   hp_max : Int
+  sword : Sword
+  weapon_type : Bool
 }
 
 fn Player::new(pos : Position) -> Player {
-  { pos, hp: 100, hp_max: 100 }
+  { pos, hp: 100, hp_max: 100, sword: Sword::new(), weapon_type: true }
 }
 
 // -------------- MOVE --------------

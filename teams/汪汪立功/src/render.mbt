@@ -10,6 +10,28 @@ pub fn render(room : Room, player : Player) -> Unit {
   render_hp_ui(player)
 }
 
+pub fn render_background_normal() -> Unit {
+  render_background()
+  set_draw_color(1, Black)
+  set_draw_color(2, Transparent)
+  @wasm4.rect(22, 22, 116, 116)
+}
+
+pub fn render_background() -> Unit {
+  set_draw_color(1, LightBrown)
+  set_draw_color(2, Brown)
+  set_draw_color(3, Grey)
+  set_draw_color(4, Black)
+  @wasm4.blit(
+    @wasm4.sprite(map_bilt),
+    0,
+    0,
+    160,
+    160,
+    { flip_x: false, flip_y: false, one_bit_per_pixel: false, rotate: false },
+  )
+}
+
 let map_bilt : Bytes = Bytes::from_array(
   [
     b'\xff', b'\xff', b'\xff', b'\xff', b'\xff', b'\xff', b'\xff', b'\xff', b'\xff',
@@ -727,24 +749,3 @@ let map_bilt : Bytes = Bytes::from_array(
   ],
 )
 
-pub fn render_background_normal() -> Unit {
-  render_background()
-  set_draw_color(1, Black)
-  set_draw_color(2, Transparent)
-  @wasm4.rect(22, 22, 116, 116)
-}
-
-pub fn render_background() -> Unit {
-  set_draw_color(1, LightBrown)
-  set_draw_color(2, Brown)
-  set_draw_color(3, Grey)
-  set_draw_color(4, Black)
-  @wasm4.blit(
-    @wasm4.sprite(map_bilt),
-    0,
-    0,
-    160,
-    160,
-    { flip_x: false, flip_y: false, one_bit_per_pixel: false, rotate: false },
-  )
-}
