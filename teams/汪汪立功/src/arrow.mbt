@@ -8,7 +8,7 @@ struct Arrow {
   belong : Bool
 }
 
-pub fn Arrow::new(
+fn Arrow::new(
   pos : Position,
   speed : Double,
   k : Double,
@@ -20,18 +20,18 @@ pub fn Arrow::new(
   { pos, speed, k, damage, direction, vert, belong }
 }
 
-pub fn get_hitbox(self : Arrow) -> Shape {
+fn get_hitbox(self : Arrow) -> Shape {
   Circle(self.pos.x, self.pos.y, 2.5)
 }
 
-pub fn render_arrow(arrow : Arrow) -> Unit {
+fn render_arrow(arrow : Arrow) -> Unit {
   set_draw_color(1, LightBrown)
   set_draw_color(2, Brown)
   let (x, y) = arrow.pos.to_wasm4_pos()
   @wasm4.oval(x, y, 5, 5)
 }
 
-pub fn generate_arrow(
+fn generate_arrow(
   from_pos : Position,
   to_pos : Position,
   damage:Int,
@@ -46,7 +46,7 @@ pub fn generate_arrow(
   }
 }
 
-pub fn update_arrow(self : Room) -> Unit {
+fn update_arrow(self : Room) -> Unit {
   let erase_list : Array[UInt] = []
   for id, arrow in self.arrows {
     let hitbox = arrow.get_hitbox()
@@ -77,7 +77,7 @@ pub fn update_arrow(self : Room) -> Unit {
   }
 }
 
-pub fn ai(self : Arrow) -> Unit {
+fn ai(self : Arrow) -> Unit {
   let k_signum = self.k.signum()
   let direction = (if self.direction { 1.0 } else { -1.0 }) *
     (if k_signum == 0 { 1 } else { k_signum })

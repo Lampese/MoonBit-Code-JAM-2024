@@ -1,4 +1,4 @@
-pub fn inputer(player : Player) -> Unit {
+fn inputer(player : Player) -> Unit {
   let gamepad = @wasm4.get_gamepad()
   let mouse = @wasm4.get_mouse()
   if gamepad.button_up {

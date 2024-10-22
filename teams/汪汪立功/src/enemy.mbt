@@ -4,7 +4,7 @@ enum Enemy {
   Bug(Bug)
 }
 
-pub fn get_pos(self : Enemy) -> Position {
+fn get_pos(self : Enemy) -> Position {
   match self {
     Mummy({ pos, .. }) => pos
     Skeleton({ pos, .. }) => pos
@@ -12,7 +12,7 @@ pub fn get_pos(self : Enemy) -> Position {
   }
 }
 
-pub fn get_hp(self : Enemy) -> Int {
+fn get_hp(self : Enemy) -> Int {
   match self {
     Mummy({ hp, .. }) => hp
     Skeleton({ hp, .. }) => hp
@@ -20,7 +20,7 @@ pub fn get_hp(self : Enemy) -> Int {
   }
 }
 
-pub fn get_id(self : Enemy) -> UInt {
+fn get_id(self : Enemy) -> UInt {
   match self {
     Mummy({ id, .. }) => id
     Skeleton({ id, .. }) => id
@@ -28,7 +28,7 @@ pub fn get_id(self : Enemy) -> UInt {
   }
 }
 
-pub fn get_hitbox(self : Enemy, ~pos : Position = self.get_pos()) -> Shape {
+fn get_hitbox(self : Enemy, ~pos : Position = self.get_pos()) -> Shape {
   match self {
     Mummy(_) => pos.get_hitbox_mummy()
     Skeleton(_) => pos.get_hitbox_skeleton()
@@ -36,7 +36,7 @@ pub fn get_hitbox(self : Enemy, ~pos : Position = self.get_pos()) -> Shape {
   }
 }
 
-pub fn damage(self : Enemy, damage : Int) -> Unit {
+fn damage(self : Enemy, damage : Int) -> Unit {
   match self {
     Mummy(mummy) => mummy.hp -= damage
     Skeleton(skeleton) => skeleton.hp -= damage
@@ -106,7 +106,7 @@ struct Mummy {
   hitcd : CD
 }
 
-pub fn Mummy::new(id : UInt, pos : Position) -> Mummy {
+fn Mummy::new(id : UInt, pos : Position) -> Mummy {
   { id, pos, hp: 100, speed: 1, hit: 10, hitcd: CD::new(100, 2) }
 }
 
@@ -136,15 +136,15 @@ struct Skeleton {
   hitcd : CD
 }
 
-pub fn get_hitbox_skeleton(self : Position) -> Shape {
+fn get_hitbox_skeleton(self : Position) -> Shape {
   Circle(self.x, self.y, 5.4)
 }
 
-pub fn Skeleton::new(id : UInt, pos : Position) -> Skeleton {
+fn Skeleton::new(id : UInt, pos : Position) -> Skeleton {
   { id, pos, hp: 50, hitcd: CD::new(100, 1) }
 }
 
-pub fn ai(self : Skeleton) -> Unit {
+fn ai(self : Skeleton) -> Unit {
   let distance = self.pos.distance(game.player.pos)
   self.hitcd.decrease()
   if distance <= 40 && self.hitcd.check() {
@@ -169,7 +169,7 @@ struct Bug {
   hitcd : CD
 }
 
-pub fn Bug::new(id : UInt, pos : Position) -> Bug {
+fn Bug::new(id : UInt, pos : Position) -> Bug {
   { id, pos, hp: 20, speed: 3, hit: 5, hitcd: CD::new(100, 2) }
 }
 
@@ -177,7 +177,7 @@ fn get_hitbox_bug(self : Position) -> Shape {
   Rect(self.x - 5, self.y - 5, self.x + 6, self.y + 5)
 }
 
-pub fn ai(self : Bug) -> Unit {
+fn ai(self : Bug) -> Unit {
   let distance = self.pos.distance(game.player.pos)
   self.hitcd.decrease()
   if distance <= 11 && self.hitcd.check() {

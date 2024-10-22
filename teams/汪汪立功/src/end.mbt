@@ -1,4 +1,4 @@
-pub fn render_end_ui() -> Unit {
+fn render_end_ui() -> Unit {
   set_main_color_with_transparent(Black)
   @wasm4.rect(22, 22, 116, 116)
   set_main_color_with_transparent(LightBrown)

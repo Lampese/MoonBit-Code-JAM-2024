@@ -1,4 +1,4 @@
-pub fn render(room : Room, player : Player) -> Unit {
+fn render(room : Room, player : Player) -> Unit {
   render_background_normal()
   render_weapon_column()
   render_player(player)
@@ -12,13 +12,13 @@ pub fn render(room : Room, player : Player) -> Unit {
   }
 }
 
-pub fn render_background_normal() -> Unit {
+fn render_background_normal() -> Unit {
   render_background()
   set_main_color_with_transparent(Black)
   @wasm4.rect(22, 22, 116, 116) // patch backgroud
 }
 
-pub fn render_background() -> Unit {
+fn render_background() -> Unit {
   set_draw_color(1, LightBrown)
   set_draw_color(2, Brown)
   set_draw_color(3, Grey)

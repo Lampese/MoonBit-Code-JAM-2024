@@ -5,7 +5,7 @@ struct Game {
   id_pool : ID_Pool
 }
 
-pub fn Game::new() -> Game {
+fn Game::new() -> Game {
   {
     stop:false,
     player: Player::new({ x: 80, y: 80 }),

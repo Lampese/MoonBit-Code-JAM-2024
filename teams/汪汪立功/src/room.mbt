@@ -5,7 +5,7 @@ struct Room {
   arrow_walls : HitBox
 }
 
-pub fn Room::new() -> Room {
+fn Room::new() -> Room {
   {
     walls: init_wall(),
     enemys: {},

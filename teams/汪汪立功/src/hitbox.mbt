@@ -7,15 +7,15 @@ struct HitBox {
   shapes : Array[Shape]
 }
 
-pub fn HitBox::new() -> HitBox {
+fn HitBox::new() -> HitBox {
   { shapes: [] }
 }
 
-pub fn add(self : HitBox, shape : Shape) -> Unit {
+fn add(self : HitBox, shape : Shape) -> Unit {
   self.shapes.push(shape)
 }
 
-pub fn intersect(self : Shape, other : Shape) -> Bool {
+fn intersect(self : Shape, other : Shape) -> Bool {
   match (self, other) {
     (Rect(x1, y1, x2, y2), Rect(x3, y3, x4, y4)) =>
       (x1 > x4 || x3 > x2 || y1 > y4 || y3 > y2).not()
@@ -37,7 +37,7 @@ pub fn intersect(self : Shape, other : Shape) -> Bool {
   }
 }
 
-pub fn init_wall() -> HitBox {
+fn init_wall() -> HitBox {
   let hitbox : HitBox = HitBox::new()
   hitbox.add(Rect(3, 3, 70, 20))
   hitbox.add(Rect(3, 3, 20, 71))
@@ -50,7 +50,7 @@ pub fn init_wall() -> HitBox {
   hitbox
 }
 
-pub fn shape_in_box(self : HitBox, shape : Shape) -> Bool {
+fn shape_in_box(self : HitBox, shape : Shape) -> Bool {
   for current_shape in self.shapes {
     if intersect(current_shape, shape) {
       return true

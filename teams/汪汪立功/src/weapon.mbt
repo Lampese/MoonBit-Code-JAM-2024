@@ -3,7 +3,7 @@ enum Weapon {
   Slingshot(Slingshot)
 }
 
-pub fn switch_weapon(self : Player) -> Unit {
+fn switch_weapon(self : Player) -> Unit {
   if self.weapon_type == true {
     self.weapon = Slingshot(self.slingshot)
     self.weapon_type = false
@@ -14,7 +14,7 @@ pub fn switch_weapon(self : Player) -> Unit {
   self.switch_cd.refersh()
 }
 
-pub fn attack(
+fn attack(
   self : Weapon,
   pos : Position,
   room : Room,
@@ -28,14 +28,14 @@ pub fn attack(
   }
 }
 
-pub fn get_cd(self : Weapon) -> CD {
+fn get_cd(self : Weapon) -> CD {
   match self {
     Sword(sword) => sword.cd
     Slingshot(slingshot) => slingshot.cd
   }
 }
 
-pub fn update_weapon(self : Player) -> Unit {
+fn update_weapon(self : Player) -> Unit {
   self.switch_cd.decrease()
   match self.weapon {
     Sword(sword) => sword.cd.decrease()
@@ -50,11 +50,11 @@ struct Sword {
   cd : CD
 }
 
-pub fn Sword::new() -> Sword {
+fn Sword::new() -> Sword {
   { level: 1, damage: 10, range: 3, cd: CD::new(100, 10) }
 }
 
-pub fn sword_determine_direction(
+fn sword_determine_direction(
   mouse_x : Int,
   mouse_y : Int,
   pos : Position
@@ -72,7 +72,7 @@ pub fn sword_determine_direction(
   }
 }
 
-pub fn sword_generate_attack_hitbox(
+fn sword_generate_attack_hitbox(
   self : Direction,
   sword : Sword,
   pos : Position
@@ -86,7 +86,7 @@ pub fn sword_generate_attack_hitbox(
   }
 }
 
-pub fn sword_attack(
+fn sword_attack(
   self : Sword,
   pos : Position,
   room : Room,
@@ -111,11 +111,11 @@ struct Slingshot {
   cd : CD
 }
 
-pub fn Slingshot::new() -> Slingshot {
+fn Slingshot::new() -> Slingshot {
   { level: 1, damage: 10, cd: CD::new(100, 2) }
 }
 
-pub fn slingshot_attack(
+fn slingshot_attack(
   self : Slingshot,
   pos : Position,
   room : Room,
