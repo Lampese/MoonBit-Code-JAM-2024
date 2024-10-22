@@ -42,13 +42,13 @@ pub fn update_arrow(self : Room) -> Unit {
       erase_list.push(id)
       flag = true
     } else if arrow.belong == true &&
-      game.player.pos.get_hitbox_player().is_intersect(hitbox) {
+      game.player.pos.get_hitbox_player().intersect(hitbox) {
       game.player.damage(arrow.damage)
       erase_list.push(id)
       flag = true
     } else if arrow.belong == false {
       for _, enemy in self.enemys {
-        if enemy.get_hitbox().is_intersect(hitbox) {
+        if enemy.get_hitbox().intersect(hitbox) {
           enemy.damage(arrow.damage)
           flag = true
           break
@@ -60,7 +60,7 @@ pub fn update_arrow(self : Room) -> Unit {
     }
   }
   for id in erase_list {
-    self.erase_arrow(id)
+    self.arrows.remove(id)
   }
 }
 

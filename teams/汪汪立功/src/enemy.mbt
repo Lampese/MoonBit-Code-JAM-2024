@@ -75,7 +75,7 @@ fn update_enemy(self : Room) -> Unit {
     }
   }
   for id in erase_list {
-    self.erase_enemy(id)
+    self.enemys.remove(id)
   }
 }
 
@@ -90,7 +90,7 @@ fn set_pos(self : Enemy, pos : Position) -> Unit {
 fn apply(self : Enemy, pos : Position) -> Unit {
   let hitbox = self.get_hitbox(~pos)
   if game.current_room.walls.shape_in_box(hitbox).not() &&
-    game.player.pos.get_hitbox_player().is_intersect(hitbox).not() {
+    game.player.pos.get_hitbox_player().intersect(hitbox).not() {
     self.set_pos(pos)
   }
 }

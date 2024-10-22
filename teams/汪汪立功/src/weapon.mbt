@@ -48,13 +48,6 @@ struct Sword {
   cd : CD
 }
 
-enum SwordDirection {
-  Left
-  Right
-  Up
-  Down
-} derive(Show)
-
 pub fn Sword::new() -> Sword {
   { level: 1, damage: 10, range: 3, cd: CD::new(100, 10) }
 }
@@ -63,7 +56,7 @@ pub fn sword_determine_direction(
   mouse_x : Int,
   mouse_y : Int,
   pos : Position
-) -> SwordDirection {
+) -> Direction {
   let dx = mouse_x.to_double() - pos.x
   let dy = mouse_y.to_double() - pos.y
   if dy < 0 && dx.abs() < dy.abs() {
@@ -78,7 +71,7 @@ pub fn sword_determine_direction(
 }
 
 pub fn sword_generate_attack_hitbox(
-  self : SwordDirection,
+  self : Direction,
   sword : Sword,
   pos : Position
 ) -> Shape {
@@ -103,7 +96,7 @@ pub fn sword_attack(
     let hitbox = sword_determine_direction(mouse_x, mouse_y, pos).sword_generate_attack_hitbox(
       self, pos,
     )
-    if hitbox.is_intersect(enemy.get_hitbox()) {
+    if hitbox.intersect(enemy.get_hitbox()) {
       enemy.damage(damage)
     }
   }

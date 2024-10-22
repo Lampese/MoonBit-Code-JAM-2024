@@ -13,11 +13,3 @@ pub fn Room::new() -> Room {
     arrow_walls: init_wall(),
   }
 }
-
-pub fn erase_enemy(self : Room, id : UInt) -> Unit {
-  self.enemys.remove(id)
-}
-
-pub fn erase_arrow(self : Room, id : UInt) -> Unit {
-  self.arrows.remove(id)
-}

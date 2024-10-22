@@ -37,20 +37,13 @@ pub fn get_hitbox_player(self : Position) -> Shape {
   Circle(self.x, self.y, 5.4)
 }
 
-pub fn up(self : Player) -> Unit {
-  self.apply({ x: self.pos.x, y: self.pos.y - speed.to_double() })
-}
-
-pub fn down(self : Player) -> Unit {
-  self.apply({ x: self.pos.x, y: self.pos.y + speed.to_double() })
-}
-
-pub fn left(self : Player) -> Unit {
-  self.apply({ x: self.pos.x - speed.to_double(), y: self.pos.y })
-}
-
-pub fn right(self : Player) -> Unit {
-  self.apply({ x: self.pos.x + speed.to_double(), y: self.pos.y })
+pub fn move(self : Player, direction : Direction) -> Unit {
+  match direction {
+    Up => self.apply({ x: self.pos.x, y: self.pos.y - speed.to_double() })
+    Down => self.apply({ x: self.pos.x, y: self.pos.y + speed.to_double() })
+    Left => self.apply({ x: self.pos.x - speed.to_double(), y: self.pos.y })
+    Right => self.apply({ x: self.pos.x + speed.to_double(), y: self.pos.y })
+  }
 }
 
 pub fn damage(self : Player, hp : Int) -> Unit {

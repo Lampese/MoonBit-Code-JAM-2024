@@ -2,18 +2,17 @@ pub fn inputer(player : Player) -> Unit {
   let gamepad = @wasm4.get_gamepad()
   let mouse = @wasm4.get_mouse()
   if gamepad.button_up {
-    player.up()
+    player.move(Up)
   }
   if gamepad.button_down {
-    player.down()
+    player.move(Down)
   }
   if gamepad.button_left {
-    player.left()
+    player.move(Left)
   }
   if gamepad.button_right {
-    player.right()
+    player.move(Right)
   }
-  @wasm4.trace(player.switch_cd.check().to_string())
   if mouse.left && player.weapon.get_cd().check() {
     player.weapon.attack(player.pos, game.current_room, mouse.x, mouse.y)
   } else if mouse.right && player.switch_cd.check() {
