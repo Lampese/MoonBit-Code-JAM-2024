@@ -4,6 +4,7 @@ fn render(room : Room, player : Player) -> Unit {
   render_player(player)
   render_hp_bar(player)
   render_cd_bar(player)
+  render_info(player)
   for _, enemy in room.enemys {
     render_enermy(enemy)
   }

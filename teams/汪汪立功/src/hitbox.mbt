@@ -50,6 +50,15 @@ fn init_wall() -> HitBox {
   hitbox
 }
 
+fn init_game_wall()->HitBox{
+  let hitbox=init_wall()
+  hitbox.add(Rect(3,71,20,85))
+  hitbox.add(Rect(70,3,84,20))
+  hitbox.add(Rect(137,71,154,85))
+  hitbox.add(Rect(72,138,86,155))
+  hitbox
+}
+
 fn shape_in_box(self : HitBox, shape : Shape) -> Bool {
   for current_shape in self.shapes {
     if intersect(current_shape, shape) {

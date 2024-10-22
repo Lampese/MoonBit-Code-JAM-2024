@@ -1,4 +1,5 @@
 struct Player {
+  mut level : Int
   mut pos : Position
   mut hp : Int
   hp_max : Int
@@ -11,12 +12,13 @@ struct Player {
 
 fn Player::new(pos : Position) -> Player {
   {
+    level: 1,
     pos,
     hp: 100,
     hp_max: 100,
-    sword: Sword::new(),
-    slingshot: Slingshot::new(),
-    weapon: Sword(Sword::new()),
+    sword: Sword::new(1),
+    slingshot: Slingshot::new(1),
+    weapon: Sword(Sword::new(1)),
     weapon_type: true,
     switch_cd: CD::new(100, 10),
   }
@@ -65,4 +67,9 @@ fn update_player(self : Player) -> Unit {
   if self.hp < 0 {
     game.stop = true
   }
+}
+
+fn level_up(self : Player) -> Unit {
+  self.level += 1
+  self.hp = 100 + self.level * 20
 }

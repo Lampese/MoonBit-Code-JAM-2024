@@ -50,8 +50,13 @@ struct Sword {
   cd : CD
 }
 
-fn Sword::new() -> Sword {
-  { level: 1, damage: 10, range: 3, cd: CD::new(100, 10) }
+fn Sword::new(level : Int) -> Sword {
+  {
+    level,
+    damage: 8 + level * 2,
+    range: 3 + level / 4,
+    cd: CD::new(100, 10 + level / 5),
+  }
 }
 
 fn sword_determine_direction(
@@ -111,8 +116,8 @@ struct Slingshot {
   cd : CD
 }
 
-fn Slingshot::new() -> Slingshot {
-  { level: 1, damage: 10, cd: CD::new(100, 2) }
+fn Slingshot::new(level : Int) -> Slingshot {
+  { level, damage: 10+level*5, cd: CD::new(100, 2+(level/3)*2) }
 }
 
 fn slingshot_attack(

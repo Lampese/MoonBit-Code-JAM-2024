@@ -60,9 +60,14 @@ fn update_arrow(self : Room) -> Unit {
       erase_list.push(id)
       flag = true
     } else if arrow.belong == false {
+      if game.current_room.walls.shape_in_box(hitbox){
+        erase_list.push(id)
+        flag=true
+      }
       for _, enemy in self.enemys {
         if enemy.get_hitbox().intersect(hitbox) {
           enemy.damage(arrow.damage)
+          erase_list.push(id)
           flag = true
           break
         }
