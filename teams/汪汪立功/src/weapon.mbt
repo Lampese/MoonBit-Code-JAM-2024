@@ -113,11 +113,17 @@ fn sword_attack(
 struct Slingshot {
   level : Int
   damage : Int
+  speed : Double
   cd : CD
 }
 
 fn Slingshot::new(level : Int) -> Slingshot {
-  { level, damage: 10+level*5, cd: CD::new(100, 2+(level/3)*2) }
+  {
+    level,
+    damage: 10 + level * 5,
+    speed: 0.5 + 0.1 * level.to_double(),
+    cd: CD::new(100, 2 + level / 3 * 2),
+  }
 }
 
 fn slingshot_attack(
@@ -130,6 +136,7 @@ fn slingshot_attack(
   let (id, arrow) = generate_arrow(
     pos,
     { x: mouse_x.to_double(), y: mouse_y.to_double() },
+    self.speed,
     self.damage,
     false,
   )

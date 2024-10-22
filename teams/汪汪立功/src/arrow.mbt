@@ -34,15 +34,38 @@ fn render_arrow(arrow : Arrow) -> Unit {
 fn generate_arrow(
   from_pos : Position,
   to_pos : Position,
-  damage:Int,
+  speed : Double,
+  damage : Int,
   belong : Bool
 ) -> (UInt, Arrow) {
   let id = game.id_pool.get_id()
   if from_pos.x == to_pos.x {
-    (id, Arrow::new(from_pos, 0.5, 1, damage, from_pos.y < to_pos.y, true, belong))
+    (
+      id,
+      Arrow::new(
+        from_pos,
+        speed,
+        1,
+        damage,
+        from_pos.y < to_pos.y,
+        true,
+        belong,
+      ),
+    )
   } else {
     let k = (from_pos.y - to_pos.y) / (from_pos.x - to_pos.x)
-    (id, Arrow::new(from_pos, 0.5, k, damage, from_pos.x < to_pos.x, false, belong))
+    (
+      id,
+      Arrow::new(
+        from_pos,
+        speed,
+        k,
+        damage,
+        from_pos.x < to_pos.x,
+        false,
+        belong,
+      ),
+    )
   }
 }
 
@@ -60,9 +83,9 @@ fn update_arrow(self : Room) -> Unit {
       erase_list.push(id)
       flag = true
     } else if arrow.belong == false {
-      if game.current_room.walls.shape_in_box(hitbox){
+      if game.current_room.move_hitbox().shape_in_box(hitbox) {
         erase_list.push(id)
-        flag=true
+        flag = true
       }
       for _, enemy in self.enemys {
         if enemy.get_hitbox().intersect(hitbox) {

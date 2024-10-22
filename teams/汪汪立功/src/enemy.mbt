@@ -89,7 +89,7 @@ fn set_pos(self : Enemy, pos : Position) -> Unit {
 
 fn apply(self : Enemy, pos : Position) -> Unit {
   let hitbox = self.get_hitbox(~pos)
-  if game.current_room.walls.shape_in_box(hitbox).not() &&
+  if game.current_room.move_hitbox().shape_in_box(hitbox).not() &&
     game.player.pos.get_hitbox_player().intersect(hitbox).not() {
     self.set_pos(pos)
   }
@@ -106,8 +106,15 @@ struct Mummy {
   hitcd : CD
 }
 
-fn Mummy::new(id : UInt, pos : Position) -> Mummy {
-  { id, pos, hp: 100, speed: 1, hit: 10, hitcd: CD::new(100, 2) }
+fn Mummy::new(id : UInt, pos : Position, level : Int) -> Mummy {
+  {
+    id,
+    pos,
+    hp: 60 + level * 20,
+    speed: 0.5,
+    hit: 10 + level * 3,
+    hitcd: CD::new(100, 2 + level / 10),
+  }
 }
 
 fn get_hitbox_mummy(self : Position) -> Shape {
@@ -134,21 +141,36 @@ struct Skeleton {
   mut pos : Position
   mut hp : Int
   hitcd : CD
+  speed : Double
+  damage : Int
 }
 
 fn get_hitbox_skeleton(self : Position) -> Shape {
   Circle(self.x, self.y, 5.4)
 }
 
-fn Skeleton::new(id : UInt, pos : Position) -> Skeleton {
-  { id, pos, hp: 50, hitcd: CD::new(100, 1) }
+fn Skeleton::new(id : UInt, pos : Position, level : Int) -> Skeleton {
+  {
+    id,
+    pos,
+    hp: 50 + level * 20,
+    hitcd: CD::new(100, level),
+    speed: 0.5 + 0.1 * level.to_double(),
+    damage: 10 + level * 3,
+  }
 }
 
 fn ai(self : Skeleton) -> Unit {
   let distance = self.pos.distance(game.player.pos)
   self.hitcd.decrease()
   if distance <= 40 && self.hitcd.check() {
-    let (id, arrow) = generate_arrow(self.pos, game.player.pos, 10, true)
+    let (id, arrow) = generate_arrow(
+      self.pos,
+      game.player.pos,
+      self.speed,
+      self.damage,
+      true,
+    )
     game.current_room.arrows.set(id, arrow)
     self.hitcd.refersh()
   } else if distance > 40 {
@@ -169,8 +191,15 @@ struct Bug {
   hitcd : CD
 }
 
-fn Bug::new(id : UInt, pos : Position) -> Bug {
-  { id, pos, hp: 20, speed: 3, hit: 5, hitcd: CD::new(100, 2) }
+fn Bug::new(id : UInt, pos : Position, level : Int) -> Bug {
+  {
+    id,
+    pos,
+    hp: 20 + level * 5,
+    speed: 1,
+    hit: 5 + level,
+    hitcd: CD::new(100, 2 + level / 10),
+  }
 }
 
 fn get_hitbox_bug(self : Position) -> Shape {

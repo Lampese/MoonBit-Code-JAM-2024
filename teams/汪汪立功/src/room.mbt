@@ -4,6 +4,7 @@ struct Room {
   arrows : Map[UInt, Arrow]
   walls : HitBox
   arrow_walls : HitBox
+  mut frame : HitBox
 }
 
 fn Room::new() -> Room {
@@ -13,6 +14,7 @@ fn Room::new() -> Room {
     enemys: {},
     arrows: {},
     arrow_walls: init_wall(),
+    frame: HitBox::new(),
   }
 }
 
@@ -32,8 +34,19 @@ fn update_room(self : Room) -> Unit {
     patch_out(Down)
     patch_out(Left)
     patch_out(Right)
+    self.frame = frame()
+  } else {
+    self.frame = HitBox::new()
   }
-  if self.enemys.is_empty(){
-    self.stop=true
+  if self.enemys.is_empty() {
+    self.stop = true
   }
+}
+
+fn move_hitbox(self : Room) -> HitBox {
+  self.walls.merge(self.frame)
+}
+
+fn arrow_hitbox(self : Room) -> HitBox {
+  self.walls.merge(self.frame)
 }

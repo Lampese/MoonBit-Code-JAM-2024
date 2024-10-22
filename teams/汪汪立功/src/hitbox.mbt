@@ -15,6 +15,10 @@ fn add(self : HitBox, shape : Shape) -> Unit {
   self.shapes.push(shape)
 }
 
+fn merge(self : HitBox, other : HitBox) -> HitBox {
+  { shapes: self.shapes + other.shapes }
+}
+
 fn intersect(self : Shape, other : Shape) -> Bool {
   match (self, other) {
     (Rect(x1, y1, x2, y2), Rect(x3, y3, x4, y4)) =>
@@ -50,12 +54,12 @@ fn init_wall() -> HitBox {
   hitbox
 }
 
-fn init_game_wall()->HitBox{
-  let hitbox=init_wall()
-  hitbox.add(Rect(3,71,20,85))
-  hitbox.add(Rect(70,3,84,20))
-  hitbox.add(Rect(137,71,154,85))
-  hitbox.add(Rect(72,138,86,155))
+fn frame() -> HitBox {
+  let hitbox : HitBox = HitBox::new()
+  hitbox.add(Rect(3, 71, 20, 85))
+  hitbox.add(Rect(70, 3, 84, 20))
+  hitbox.add(Rect(137, 71, 154, 85))
+  hitbox.add(Rect(72, 138, 86, 155))
   hitbox
 }
 

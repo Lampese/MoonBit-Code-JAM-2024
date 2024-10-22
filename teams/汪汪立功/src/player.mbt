@@ -2,7 +2,7 @@ struct Player {
   mut level : Int
   mut pos : Position
   mut hp : Int
-  hp_max : Int
+  mut hp_max : Int
   sword : Sword
   slingshot : Slingshot
   mut weapon : Weapon
@@ -30,7 +30,7 @@ let speed = 1
 
 fn apply(self : Player, pos : Position) -> Unit {
   let hitbox = pos.get_hitbox_player()
-  if game.current_room.walls.shape_in_box(hitbox).not() {
+  if game.current_room.move_hitbox().shape_in_box(hitbox).not() {
     self.pos = pos
   }
 }
@@ -71,5 +71,5 @@ fn update_player(self : Player) -> Unit {
 
 fn level_up(self : Player) -> Unit {
   self.level += 1
-  self.hp = 100 + self.level * 20
+  self.hp_max = 100 + self.level * 20
 }
