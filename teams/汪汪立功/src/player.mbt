@@ -33,11 +33,11 @@ fn apply(self : Player, pos : Position) -> Unit {
   }
 }
 
-pub fn get_hitbox_player(self : Position) -> Shape {
+fn get_hitbox_player(self : Position) -> Shape {
   Circle(self.x, self.y, 5.4)
 }
 
-pub fn move(self : Player, direction : Direction) -> Unit {
+fn move(self : Player, direction : Direction) -> Unit {
   match direction {
     Up => self.apply({ x: self.pos.x, y: self.pos.y - speed.to_double() })
     Down => self.apply({ x: self.pos.x, y: self.pos.y + speed.to_double() })
@@ -46,7 +46,7 @@ pub fn move(self : Player, direction : Direction) -> Unit {
   }
 }
 
-pub fn damage(self : Player, hp : Int) -> Unit {
+fn damage(self : Player, hp : Int) -> Unit {
   self.hp -= hp
 }
 
@@ -57,4 +57,12 @@ fn render_player(player : Player) -> Unit {
     (player.pos.x - 5).to_int(),
     (player.pos.y - 5).to_int(),
   )
+}
+
+// -------------- UPDATE --------------
+
+fn update_player(self : Player) -> Unit {
+  if self.hp < 0 {
+    game.stop = true
+  }
 }

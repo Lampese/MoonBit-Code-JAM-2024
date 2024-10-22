@@ -23,6 +23,8 @@ pub fn attack(
 ) -> Unit {
   match self {
     Sword(sword) => sword.sword_attack(pos, room, mouse_x, mouse_y)
+    Slingshot(slingshot) =>
+      slingshot.slingshot_attack(pos, room, mouse_x, mouse_y)
   }
 }
 
@@ -110,7 +112,7 @@ struct Slingshot {
 }
 
 pub fn Slingshot::new() -> Slingshot {
-  { level: 1, damage: 10, cd: CD::new(100, 10) }
+  { level: 1, damage: 10, cd: CD::new(100, 2) }
 }
 
 pub fn slingshot_attack(
@@ -127,4 +129,5 @@ pub fn slingshot_attack(
     false,
   )
   room.arrows.set(id, arrow)
+  self.cd.refersh()
 }

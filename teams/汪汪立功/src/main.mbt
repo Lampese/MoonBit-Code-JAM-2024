@@ -9,8 +9,13 @@ pub fn start() -> Unit {
 
 pub fn update() -> Unit {
   render(game.current_room, game.player)
-  update_weapon(game.player)
-  update_enemy(game.current_room)
-  update_arrow(game.current_room)
-  inputer(game.player)
+  if game.stop {
+    render_end_ui()
+  } else {
+    update_player(game.player)
+    update_weapon(game.player)
+    update_enemy(game.current_room)
+    update_arrow(game.current_room)
+    inputer(game.player)
+  }
 }
