@@ -105,9 +105,26 @@ pub fn sword_attack(
 
 struct Slingshot {
   level : Int
+  damage : Int
   cd : CD
 }
 
 pub fn Slingshot::new() -> Slingshot {
-  { level: 1, cd: CD::new(100, 10) }
+  { level: 1, damage: 10, cd: CD::new(100, 10) }
+}
+
+pub fn slingshot_attack(
+  self : Slingshot,
+  pos : Position,
+  room : Room,
+  mouse_x : Int,
+  mouse_y : Int
+) -> Unit {
+  let (id, arrow) = generate_arrow(
+    pos,
+    { x: mouse_x.to_double(), y: mouse_y.to_double() },
+    self.damage,
+    false,
+  )
+  room.arrows.set(id, arrow)
 }

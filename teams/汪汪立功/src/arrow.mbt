@@ -1,5 +1,4 @@
 struct Arrow {
-  id : UInt
   mut pos : Position
   speed : Double
   k : Double
@@ -10,7 +9,6 @@ struct Arrow {
 }
 
 pub fn Arrow::new(
-  id : UInt,
   pos : Position,
   speed : Double,
   k : Double,
@@ -19,7 +17,7 @@ pub fn Arrow::new(
   vert : Bool,
   belong : Bool
 ) -> Arrow {
-  { id, pos, speed, k, damage, direction, vert, belong }
+  { pos, speed, k, damage, direction, vert, belong }
 }
 
 pub fn get_hitbox(self : Arrow) -> Shape {
@@ -31,6 +29,21 @@ pub fn render_arrow(arrow : Arrow) -> Unit {
   set_draw_color(2, Brown)
   let (x, y) = arrow.pos.to_wasm4_pos()
   @wasm4.oval(x, y, 5, 5)
+}
+
+pub fn generate_arrow(
+  from_pos : Position,
+  to_pos : Position,
+  damage:Int,
+  belong : Bool
+) -> (UInt, Arrow) {
+  let id = game.id_pool.get_id()
+  if from_pos.x == to_pos.x {
+    (id, Arrow::new(from_pos, 0.5, 1, damage, from_pos.y < to_pos.y, true, belong))
+  } else {
+    let k = (from_pos.y - to_pos.y) / (from_pos.x - to_pos.x)
+    (id, Arrow::new(from_pos, 0.5, k, damage, from_pos.x < to_pos.x, false, belong))
+  }
 }
 
 pub fn update_arrow(self : Room) -> Unit {

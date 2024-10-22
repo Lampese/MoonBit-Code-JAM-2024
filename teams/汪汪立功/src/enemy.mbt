@@ -147,39 +147,9 @@ pub fn Skeleton::new(id : UInt, pos : Position) -> Skeleton {
 pub fn ai(self : Skeleton) -> Unit {
   let distance = self.pos.distance(game.player.pos)
   self.hitcd.decrease()
-  let player_pos = game.player.pos
   if distance <= 40 && self.hitcd.check() {
-    let id = game.id_pool.get_id()
-    if self.pos.x == player_pos.x {
-      game.current_room.arrows.set(
-        id,
-        Arrow::new(
-          id,
-          self.pos,
-          0.5,
-          1,
-          10,
-          self.pos.y < player_pos.y,
-          true,
-          true,
-        ),
-      )
-    } else {
-      let k = (self.pos.y - player_pos.y) / (self.pos.x - player_pos.x)
-      game.current_room.arrows.set(
-        id,
-        Arrow::new(
-          id,
-          self.pos,
-          0.5,
-          k,
-          10,
-          self.pos.x < player_pos.x,
-          false,
-          true,
-        ),
-      )
-    }
+    let (id, arrow) = generate_arrow(self.pos, game.player.pos, 10, true)
+    game.current_room.arrows.set(id, arrow)
     self.hitcd.refersh()
   } else if distance > 40 {
     let way = self.pos.find_way(game.player.pos, 0.25)
