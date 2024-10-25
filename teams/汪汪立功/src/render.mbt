@@ -5,6 +5,9 @@ fn render(room : Room, player : Player) -> Unit {
   render_hp_bar(player)
   render_cd_bar(player)
   render_info(player)
+  for obstacle in room.obstacles {
+    obstacle.render_obstacle()
+  }
   for _, enemy in room.enemys {
     render_enermy(enemy)
   }

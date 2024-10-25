@@ -111,7 +111,7 @@ fn Mummy::new(id : UInt, pos : Position, level : Int) -> Mummy {
     id,
     pos,
     hp: 60 + level * 20,
-    speed: 0.5,
+    speed: 0.4,
     hit: 10 + level * 3,
     hitcd: CD::new(100, 2 + level / 10),
   }
@@ -155,7 +155,7 @@ fn Skeleton::new(id : UInt, pos : Position, level : Int) -> Skeleton {
     pos,
     hp: 50 + level * 20,
     hitcd: CD::new(100, level),
-    speed: 0.5 + 0.1 * level.to_double(),
+    speed: 0.3 + 0.05 * level.to_double(),
     damage: 10 + level * 3,
   }
 }
@@ -196,7 +196,7 @@ fn Bug::new(id : UInt, pos : Position, level : Int) -> Bug {
     id,
     pos,
     hp: 20 + level * 5,
-    speed: 1,
+    speed: 0.35 + 0.05 * level.to_double(),
     hit: 5 + level,
     hitcd: CD::new(100, 2 + level / 10),
   }

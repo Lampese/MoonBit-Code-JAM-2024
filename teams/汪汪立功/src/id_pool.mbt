@@ -10,3 +10,5 @@ fn get_id(self : ID_Pool) -> UInt {
   self.count += 1
   self.count
 }
+
+let id_pool : ID_Pool = ID_Pool::new()

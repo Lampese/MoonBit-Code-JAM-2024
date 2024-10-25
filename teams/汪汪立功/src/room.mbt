@@ -5,9 +5,11 @@ struct Room {
   walls : HitBox
   arrow_walls : HitBox
   mut frame : HitBox
+  mut obstacles : Array[Obstacle]
+  upgrade : Bool
 }
 
-fn Room::new() -> Room {
+fn Room::new(upgrade : Bool) -> Room {
   {
     stop: false,
     walls: init_wall(),
@@ -15,6 +17,8 @@ fn Room::new() -> Room {
     arrows: {},
     arrow_walls: init_wall(),
     frame: HitBox::new(),
+    obstacles: [],
+    upgrade,
   }
 }
 
@@ -49,4 +53,16 @@ fn move_hitbox(self : Room) -> HitBox {
 
 fn arrow_hitbox(self : Room) -> HitBox {
   self.walls.merge(self.frame)
+}
+
+fn bind_style(self : Room, style : RoomStyle) -> Unit {
+  guard let RoomStyle(obstacles) = style
+  self.obstacles = obstacles
+  for obstacle in obstacles {
+    self.walls.add(obstacle.get_obstacle_hitbox())
+  }
+}
+
+fn add_enemy(self : Room, enemy : Enemy) -> Unit {
+  self.enemys.set(enemy.get_id(), enemy)
 }

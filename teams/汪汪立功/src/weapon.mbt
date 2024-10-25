@@ -54,7 +54,7 @@ fn Sword::new(level : Int) -> Sword {
   {
     level,
     damage: 8 + level * 2,
-    range: 3 + level / 4,
+    range: 4 + level / 4,
     cd: CD::new(100, 10 + level / 5),
   }
 }

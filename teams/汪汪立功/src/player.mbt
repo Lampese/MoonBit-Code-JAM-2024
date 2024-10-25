@@ -16,9 +16,9 @@ fn Player::new(pos : Position) -> Player {
     pos,
     hp: 100,
     hp_max: 100,
-    sword: Sword::new(1),
-    slingshot: Slingshot::new(1),
-    weapon: Sword(Sword::new(1)),
+    sword: Sword::new(5),
+    slingshot: Slingshot::new(5),
+    weapon: Sword(Sword::new(5)),
     weapon_type: true,
     switch_cd: CD::new(100, 10),
   }

@@ -38,7 +38,7 @@ fn generate_arrow(
   damage : Int,
   belong : Bool
 ) -> (UInt, Arrow) {
-  let id = game.id_pool.get_id()
+  let id = id_pool.get_id()
   if from_pos.x == to_pos.x {
     (
       id,
