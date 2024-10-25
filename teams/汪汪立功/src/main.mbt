@@ -15,6 +15,7 @@ pub fn update() -> Unit {
   if game.stop {
     render_end_ui()
   } else {
+    update_level(game.player)
     update_room(game.current_room)
     update_player(game.player)
     update_weapon(game.player)
