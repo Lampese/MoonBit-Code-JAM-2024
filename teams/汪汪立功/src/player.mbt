@@ -3,8 +3,8 @@ struct Player {
   mut pos : Position
   mut hp : Int
   mut hp_max : Int
-  sword : Sword
-  slingshot : Slingshot
+  mut sword : Sword
+  mut slingshot : Slingshot
   mut weapon : Weapon
   mut weapon_type : Bool
   switch_cd : CD
@@ -16,9 +16,9 @@ fn Player::new(pos : Position) -> Player {
     pos,
     hp: 100,
     hp_max: 100,
-    sword: Sword::new(5),
-    slingshot: Slingshot::new(5),
-    weapon: Sword(Sword::new(5)),
+    sword: Sword::new(1),
+    slingshot: Slingshot::new(1),
+    weapon: Sword(Sword::new(1)),
     weapon_type: true,
     switch_cd: CD::new(100, 10),
   }

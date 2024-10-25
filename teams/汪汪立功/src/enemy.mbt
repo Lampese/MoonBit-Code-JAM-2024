@@ -110,10 +110,10 @@ fn Mummy::new(id : UInt, pos : Position, level : Int) -> Mummy {
   {
     id,
     pos,
-    hp: 60 + level * 20,
+    hp: 50 + level * 10,
     speed: 0.4,
     hit: 10 + level * 3,
-    hitcd: CD::new(100, 2 + level / 10),
+    hitcd: CD::new(100, 3 + level / 10),
   }
 }
 
@@ -153,7 +153,7 @@ fn Skeleton::new(id : UInt, pos : Position, level : Int) -> Skeleton {
   {
     id,
     pos,
-    hp: 50 + level * 20,
+    hp: 40 + level * 10,
     hitcd: CD::new(100, level),
     speed: 0.3 + 0.05 * level.to_double(),
     damage: 10 + level * 3,

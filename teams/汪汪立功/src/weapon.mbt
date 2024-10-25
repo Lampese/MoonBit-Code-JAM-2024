@@ -53,7 +53,7 @@ struct Sword {
 fn Sword::new(level : Int) -> Sword {
   {
     level,
-    damage: 8 + level * 2,
+    damage: 10 + level * 5,
     range: 4 + level / 4,
     cd: CD::new(100, 10 + level / 5),
   }
@@ -120,7 +120,7 @@ struct Slingshot {
 fn Slingshot::new(level : Int) -> Slingshot {
   {
     level,
-    damage: 10 + level * 5,
+    damage: 8 + level * 2,
     speed: 0.5 + 0.1 * level.to_double(),
     cd: CD::new(100, 2 + level / 3 * 2),
   }
@@ -142,4 +142,12 @@ fn slingshot_attack(
   )
   room.arrows.set(id, arrow)
   self.cd.refersh()
+}
+
+fn refersh_weapon(self : Player) -> Unit {
+  self.weapon = if self.weapon_type {
+    Sword(self.sword)
+  } else {
+    Slingshot(self.slingshot)
+  }
 }

@@ -7,9 +7,10 @@ struct Room {
   mut frame : HitBox
   mut obstacles : Array[Obstacle]
   upgrade : Bool
+  start : Bool
 }
 
-fn Room::new(upgrade : Bool) -> Room {
+fn Room::new(upgrade : Bool, start : Bool) -> Room {
   {
     stop: false,
     walls: init_wall(),
@@ -19,6 +20,7 @@ fn Room::new(upgrade : Bool) -> Room {
     frame: HitBox::new(),
     obstacles: [],
     upgrade,
+    start,
   }
 }
 
@@ -104,13 +106,11 @@ let room_style_upper_index : Int = room_styles.length() - 1
 
 fn generate_room(level : Int) -> Room {
   if level == 1 {
-    // Start Room
-    Room::new(false)
-  } else if level % 5 == 0 {
-    // Upgrade Room
-    Room::new(true)
+    Room::new(false, true)
+  } else if level % 3 == 0 {
+    Room::new(true, false)
   } else {
-    let room = Room::new(false)
+    let room = Room::new(false, false)
     room.bind_style(room_styles[random.next(0, room_style_upper_index)])
     let enemy_count = 3 + level / 2 + level / 10 + level / 20 + level / 40
     let enemy_level = level / 8 + level / 10 + level / 15

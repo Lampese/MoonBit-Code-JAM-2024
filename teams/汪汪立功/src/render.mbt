@@ -1,5 +1,13 @@
 fn render(room : Room, player : Player) -> Unit {
   render_background_normal()
+  if room.upgrade {
+    set_main_color_with_transparent(LightBrown)
+    render_upgrade_room()
+  }
+  if room.start{
+    set_main_color_with_transparent(LightBrown)
+    render_start_room()
+  }
   render_weapon_column()
   render_player(player)
   render_hp_bar(player)
@@ -14,6 +22,22 @@ fn render(room : Room, player : Player) -> Unit {
   for _, arrow in room.arrows {
     render_arrow(arrow)
   }
+}
+
+fn render_upgrade_room() -> Unit {
+  @wasm4.text("Upgrade Room", 35, 50)
+  @wasm4.text("Player", 60, 25)
+  @wasm4.text("HP MAX", 60, 126)
+  @wasm4.text("Sword", 15, 75)
+  @wasm4.text("Slingshot", 85, 75)
+}
+
+fn render_start_room() -> Unit {
+  @wasm4.text("THE SOUL OF", 35, 50)
+  @wasm4.text("THE", 65, 60)
+  @wasm4.text("DESERT", 55, 70)
+  @wasm4.text("MOUSE 1 ATTACK", 25, 90)
+  @wasm4.text("MOUSE 2 SWITCH", 25, 105)
 }
 
 fn render_background_normal() -> Unit {
